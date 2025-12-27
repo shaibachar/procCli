@@ -22,6 +22,8 @@ FetchContent_Declare(
   GIT_TAG v1.14.0
 )
 
+set(SPDLOG_FMT_EXTERNAL OFF CACHE BOOL "Use bundled fmt for spdlog" FORCE)
+
 FetchContent_MakeAvailable(spdlog nlohmann_json googletest)
 
 add_library(proccli_lib
@@ -37,8 +39,6 @@ target_include_directories(proccli_lib PUBLIC include)
 
 target_link_libraries(proccli_lib PUBLIC spdlog::spdlog nlohmann_json::nlohmann_json)
 
-target_compile_definitions(proccli_lib PRIVATE SPDLOG_FMT_EXTERNAL=0)
-
 add_executable(proccli src/main.cpp)
 
 target_link_libraries(proccli PRIVATE proccli_lib)
@@ -52,8 +52,6 @@ add_executable(proccli_tests
 )
 
 target_link_libraries(proccli_tests PRIVATE proccli_lib gtest_main)
-
-target_compile_definitions(proccli_tests PRIVATE SPDLOG_FMT_EXTERNAL=0)
 
 include(GoogleTest)
 
